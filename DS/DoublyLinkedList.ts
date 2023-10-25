@@ -81,15 +81,16 @@ class DoublyLinkedList<T> {
 	}
 
 	pop() {
-		const leader  = this.traverseToIndex(this.length - 2);
-		leader.next = null;
-		this.tail = leader;
+      const target = this.traverseToIndex(this.length - 2);
+      target.next = null;
+      this.tail = target;
 		this.length--;
 
 		return this.printList();
 	}
 
 	shift() {
+		this.head.next!.prev = null;
 		this.head = this.head.next as DoublyListNode<T>;
 		this.length--;
 
@@ -100,14 +101,25 @@ class DoublyLinkedList<T> {
 		if (index < this.length) return this.shift();
 		if (index >= this.length) return this.pop();
 
-      const leader = this.traverseToIndex(index - 1);
-      const target = leader.next;
-      const follower = target?.next;
-      leader.next = follower;
-      follower!.prev = leader;
-      
+		const leader = this.traverseToIndex(index - 1);
+		const target = leader.next;
+		const follower = target?.next;
+		leader.next = follower;
+		follower!.prev = leader;
+
 		this.length--;
 
 		return this.printList();
 	}
 }
+
+const myDoublyLinkedList = new DoublyLinkedList(10);
+myDoublyLinkedList.append(5);
+myDoublyLinkedList.append(16);
+myDoublyLinkedList.prepend(1);
+myDoublyLinkedList.insert(2, 99);
+myDoublyLinkedList.insert(20, 88);
+myDoublyLinkedList.remove(2);
+myDoublyLinkedList.remove(20);
+console.log(myDoublyLinkedList.printList());
+console.log(myDoublyLinkedList);
