@@ -1,35 +1,40 @@
-class ListNode<T> {
+class DoublyListNode<T> {
 	value: T;
-	next?: ListNode<T> | null;
+	next?: DoublyListNode<T> | null;
+	prev?: DoublyListNode<T> | null;
 
 	constructor(value: T) {
 		this.value = value;
 		this.next = null;
+		this.prev = null;
 	}
 }
 
-class LinkedList<T> {
-	head: ListNode<T>;
-	tail: ListNode<T>;
+class DoublyLinkedList<T> {
+	head: DoublyListNode<T>;
+	tail: DoublyListNode<T>;
 	length = 0;
 
 	constructor(value: T) {
-		this.head = new ListNode(value);
+		this.head = new DoublyListNode(value);
 		this.head.next = null;
+		this.head.prev = null;
 		this.tail = this.head;
 		this.length++;
 	}
 
 	append(value: T) {
-		let newNode = new ListNode(value);
+		let newNode = new DoublyListNode(value);
+		newNode.prev = this.tail;
 		this.tail.next = newNode;
 		this.tail = newNode;
 		this.length++;
 	}
 
 	prepend(value: T) {
-		let newNode = new ListNode(value);
+		let newNode = new DoublyListNode(value);
 		newNode.next = this.head;
+		this.head.prev = newNode;
 		this.head = newNode;
 		this.length++;
 	}
@@ -46,12 +51,12 @@ class LinkedList<T> {
 		return array;
 	}
 
-	traverseToIndex(index: number): ListNode<T> {
+	traverseToIndex(index: number): DoublyListNode<T> {
 		let count = 0;
 		let currentNode = this.head;
 
 		while (count !== index) {
-			currentNode = currentNode.next as ListNode<T>;
+			currentNode = currentNode.next as DoublyListNode<T>;
 			count++;
 		}
 
@@ -61,27 +66,31 @@ class LinkedList<T> {
 	insert(index: number, value: T) {
 		if (index >= this.length) return this.append(value);
 		if (index === 0) return this.prepend(value);
-		const newNode = new ListNode(value);
+		const newNode = new DoublyListNode(value);
 
-		const target = this.traverseToIndex(index - 1);
-		newNode.next = target?.next;
-		target!.next = newNode;
+		const leader = this.traverseToIndex(index - 1);
+		const follower = leader.next;
+
+		newNode.next = follower;
+		newNode.prev = leader;
+		leader.next = newNode;
+		follower!.prev = newNode;
 		this.length++;
 
 		return this.printList();
 	}
 
 	pop() {
-		const target = this.traverseToIndex(this.length - 2);
-		target.next = null;
-		this.tail = target;
+		const leader  = this.traverseToIndex(this.length - 2);
+		leader.next = null;
+		this.tail = leader;
 		this.length--;
 
 		return this.printList();
 	}
 
 	shift() {
-		this.head = this.head.next as ListNode<T>;
+		this.head = this.head.next as DoublyListNode<T>;
 		this.length--;
 
 		return this.printList();
@@ -91,18 +100,14 @@ class LinkedList<T> {
 		if (index < this.length) return this.shift();
 		if (index >= this.length) return this.pop();
 
-		const target = this.traverseToIndex(index - 1);
-		target.next = target.next?.next;
+      const leader = this.traverseToIndex(index - 1);
+      const target = leader.next;
+      const follower = target?.next;
+      leader.next = follower;
+      follower!.prev = leader;
+      
 		this.length--;
 
 		return this.printList();
 	}
 }
-
-let list = new LinkedList(100);
-list.append(200);
-list.append(300);
-list.prepend(50);
-list.insert(3, 800);
-list.insert(1, 10);
-console.log(list.printList());
