@@ -49,7 +49,7 @@ class LinkedList<T> {
 		let count = 0;
 		let currentNode = this.head;
 
-		while (count !== index && currentNode) {
+		while (count !== index) {
 			currentNode = currentNode.next as ListNode<T>;
 			count++;
 		}
@@ -65,8 +65,36 @@ class LinkedList<T> {
 		const target = this.traverseToIndex(index - 1);
 		newNode.next = target?.next;
 		target!.next = newNode;
+		this.length++;
 
-		return newNode;
+		return this.printList();
+	}
+
+	pop() {
+		const target = this.traverseToIndex(this.length - 2);
+		target.next = null;
+		this.tail = target;
+
+		this.length--;
+		return this.printList();
+	}
+
+	shift() {
+		this.head = this.head.next as ListNode<T>;
+
+		this.length--;
+		return this.printList();
+	}
+
+	remove(index: number) {
+		if (index < this.length) return this.shift();
+		if (index >= this.length) return this.pop();
+
+		const target = this.traverseToIndex(index - 1);
+		target.next = target.next?.next;
+		this.length--;
+
+		return this.printList();
 	}
 }
 
@@ -77,3 +105,4 @@ list.prepend(50);
 list.insert(3, 800);
 list.insert(1, 10);
 console.log(list.printList());
+console.log(list.remove());
