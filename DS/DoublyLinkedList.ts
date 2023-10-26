@@ -23,7 +23,7 @@ class DoublyLinkedList<T> {
 		this.length++;
 	}
 
-	append(value: T) {
+	push(value: T) {
 		let newNode = new DoublyListNode(value);
 		newNode.prev = this.tail;
 		this.tail.next = newNode;
@@ -31,7 +31,7 @@ class DoublyLinkedList<T> {
 		this.length++;
 	}
 
-	prepend(value: T) {
+	unshift(value: T) {
 		let newNode = new DoublyListNode(value);
 		newNode.next = this.head;
 		this.head.prev = newNode;
@@ -64,8 +64,8 @@ class DoublyLinkedList<T> {
 	}
 
 	insert(index: number, value: T) {
-		if (index >= this.length) return this.append(value);
-		if (index === 0) return this.prepend(value);
+		if (index >= this.length) return this.push(value);
+		if (index === 0) return this.unshift(value);
 		const newNode = new DoublyListNode(value);
 
 		const leader = this.traverseToIndex(index - 1);
@@ -81,9 +81,9 @@ class DoublyLinkedList<T> {
 	}
 
 	pop() {
-      const target = this.traverseToIndex(this.length - 2);
-      target.next = null;
-      this.tail = target;
+		const target = this.traverseToIndex(this.length - 2);
+		target.next = null;
+		this.tail = target;
 		this.length--;
 
 		return this.printList();
@@ -114,9 +114,9 @@ class DoublyLinkedList<T> {
 }
 
 const myDoublyLinkedList = new DoublyLinkedList(10);
-myDoublyLinkedList.append(5);
-myDoublyLinkedList.append(16);
-myDoublyLinkedList.prepend(1);
+myDoublyLinkedList.push(5);
+myDoublyLinkedList.push(16);
+myDoublyLinkedList.unshift(1);
 myDoublyLinkedList.insert(2, 99);
 myDoublyLinkedList.insert(20, 88);
 myDoublyLinkedList.remove(2);

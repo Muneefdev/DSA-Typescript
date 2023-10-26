@@ -20,14 +20,14 @@ class LinkedList<T> {
 		this.length++;
 	}
 
-	append(value: T) {
+	push(value: T) {
 		let newNode = new ListNode(value);
 		this.tail.next = newNode;
 		this.tail = newNode;
 		this.length++;
 	}
 
-	prepend(value: T) {
+	unshift(value: T) {
 		let newNode = new ListNode(value);
 		newNode.next = this.head;
 		this.head = newNode;
@@ -59,8 +59,8 @@ class LinkedList<T> {
 	}
 
 	insert(index: number, value: T) {
-		if (index >= this.length) return this.append(value);
-		if (index === 0) return this.prepend(value);
+		if (index >= this.length) return this.push(value);
+		if (index === 0) return this.unshift(value);
 		const newNode = new ListNode(value);
 
 		const target = this.traverseToIndex(index - 1);
@@ -118,12 +118,11 @@ class LinkedList<T> {
 }
 
 let list = new LinkedList(100);
-list.append(200);
-list.append(300);
-list.prepend(50);
+list.push(200);
+list.push(300);
+list.unshift(50);
 list.insert(3, 800);
 console.log(list.printList());
 console.log(list);
 console.log(list.reverse());
 console.log(list.printList());
-
