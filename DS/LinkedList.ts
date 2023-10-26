@@ -68,7 +68,7 @@ class LinkedList<T> {
 		target!.next = newNode;
 		this.length++;
 
-		return this.printList();
+		return this;
 	}
 
 	pop() {
@@ -77,7 +77,7 @@ class LinkedList<T> {
 		this.tail = target;
 		this.length--;
 
-		return this.printList();
+		return this;
 	}
 
 	shift() {
@@ -95,7 +95,25 @@ class LinkedList<T> {
 		target.next = target.next?.next;
 		this.length--;
 
-		return this.printList();
+		return this;
+	}
+
+	reverse() {
+		if (!this.head.next) return this.head;
+
+		let current = this.head;
+		this.tail = this.head;
+		let nextNode = current.next;
+		while (nextNode) {
+			let temp = nextNode.next;
+			nextNode.next = current;
+			current = nextNode;
+			nextNode = temp;
+		}
+		this.head.next = null;
+		this.head = current;
+
+		return this;
 	}
 }
 
@@ -104,5 +122,8 @@ list.append(200);
 list.append(300);
 list.prepend(50);
 list.insert(3, 800);
-list.insert(1, 10);
 console.log(list.printList());
+console.log(list);
+console.log(list.reverse());
+console.log(list.printList());
+
