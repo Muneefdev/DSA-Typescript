@@ -25,6 +25,7 @@ class Stack<T> {
 
 	push(value: T): StackNode<T> | null {
 		const newNode = new StackNode(value);
+		
 		if (!this.top) {
 			this.bottom = newNode;
 			this.top = newNode;
@@ -39,8 +40,8 @@ class Stack<T> {
 
 	traverseToIndex(index: number): StackNode<T> {
 		let count = 0;
-
 		let currentNode = this.bottom;
+		
 		while (count !== index) {
 			if (currentNode?.next) {
 				currentNode = currentNode.next as StackNode<T>;
