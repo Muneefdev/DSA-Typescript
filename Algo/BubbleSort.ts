@@ -10,7 +10,7 @@
 class BubbleSort {
 	constructor() {}
 
-	sort(array: number[]) {
+	static sort(array: number[]) {
 		for (let i = 0; i < array.length; i++) {
 			for (let j = i + 1; j < array.length; j++) {
 				if (array[i] > array[j]) {
@@ -28,5 +28,4 @@ class BubbleSort {
 	}
 }
 
-const bs = new BubbleSort();
-console.log(bs.sort([99, 100, 3, 2, 6, 1])); // [ 1, 2, 3, 6, 99, 100 ]
+console.log(BubbleSort.sort([99, 100, 3, 2, 6, 1])); // [ 1, 2, 3, 6, 99, 100 ]
